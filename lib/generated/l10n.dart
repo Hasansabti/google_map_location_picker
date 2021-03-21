@@ -158,7 +158,7 @@ class S {
   /// `Unnamed place`
   String get unnamedPlace {
     return Intl.message(
-      'Unnamed place',
+      'اختر هذا الموقع',
       name: 'unnamedPlace',
       desc: '',
       args: [],
