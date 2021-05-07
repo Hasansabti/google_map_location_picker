@@ -21,26 +21,26 @@ import 'utils/location_utils.dart';
 
 class LocationPicker extends StatefulWidget {
   LocationPicker(
-    this.apiKey, {
-    Key key,
-    this.initialCenter,
-    this.initialZoom,
-    this.requiredGPS,
-    this.myLocationButtonEnabled,
-    this.layersButtonEnabled,
-    this.automaticallyAnimateToCurrentLocation,
-    this.mapStylePath,
-    this.appBarColor,
-    this.searchBarBoxDecoration,
-    this.hintText,
-    this.resultCardConfirmIcon,
-    this.resultCardAlignment,
-    this.resultCardDecoration,
-    this.resultCardPadding,
-    this.countries,
-    this.language,
-    this.desiredAccuracy,
-  });
+      this.apiKey, {
+        Key key,
+        this.initialCenter,
+        this.initialZoom,
+        this.requiredGPS,
+        this.myLocationButtonEnabled,
+        this.layersButtonEnabled,
+        this.automaticallyAnimateToCurrentLocation,
+        this.mapStylePath,
+        this.appBarColor,
+        this.searchBarBoxDecoration,
+        this.hintText,
+        this.resultCardConfirmIcon,
+        this.resultCardAlignment,
+        this.resultCardDecoration,
+        this.resultCardPadding,
+        this.countries,
+        this.language,
+        this.desiredAccuracy,
+      });
 
   final String apiKey;
 
@@ -227,7 +227,7 @@ class LocationPickerState extends State<LocationPicker> {
         .then((response) {
       if (response.statusCode == 200) {
         Map<String, dynamic> location =
-            jsonDecode(response.body)['result']['geometry']['location'];
+        jsonDecode(response.body)['result']['geometry']['location'];
 
         LatLng latLng = LatLng(location['lat'], location['lng']);
 
@@ -297,7 +297,7 @@ class LocationPickerState extends State<LocationPicker> {
       if (response.statusCode == 200) {
         nearbyPlaces.clear();
         for (Map<String, dynamic> item
-            in jsonDecode(response.body)['results']) {
+        in jsonDecode(response.body)['results']) {
           NearbyPlace nearbyPlace = NearbyPlace();
 
           nearbyPlace.name = item['name'];
@@ -344,7 +344,7 @@ class LocationPickerState extends State<LocationPicker> {
         print(responseJson['error_message']);
       } else {
         road =
-            responseJson['results'][0]['address_components'][0]['short_name'];
+        responseJson['results'][0]['address_components'][0]['short_name'];
       }
 
 //      String locality =
@@ -399,7 +399,7 @@ class LocationPickerState extends State<LocationPicker> {
             backgroundColor: widget.appBarColor,
             key: appBarKey,
             title: SearchInput(
-              (input) => searchPlace(input),
+                  (input) => searchPlace(input),
               key: searchInputKey,
               boxDecoration: widget.searchBarBoxDecoration,
               hintText: widget.hintText,
@@ -413,7 +413,7 @@ class LocationPickerState extends State<LocationPicker> {
             myLocationButtonEnabled: widget.myLocationButtonEnabled,
             layersButtonEnabled: widget.layersButtonEnabled,
             automaticallyAnimateToCurrentLocation:
-                widget.automaticallyAnimateToCurrentLocation,
+            widget.automaticallyAnimateToCurrentLocation,
             mapStylePath: widget.mapStylePath,
             appBarColor: widget.appBarColor,
             searchBarBoxDecoration: widget.searchBarBoxDecoration,
@@ -443,26 +443,26 @@ class LocationPickerState extends State<LocationPicker> {
 ///
 ///
 Future<LocationResult> showLocationPicker(
-  BuildContext context,
-  String apiKey, {
-  LatLng initialCenter = const LatLng(45.521563, -122.677433),
-  double initialZoom = 16,
-  bool requiredGPS = false,
-  List<String> countries,
-  bool myLocationButtonEnabled = false,
-  bool layersButtonEnabled = false,
-  bool automaticallyAnimateToCurrentLocation = true,
-  String mapStylePath,
-  Color appBarColor = Colors.transparent,
-  BoxDecoration searchBarBoxDecoration,
-  String hintText,
-  Widget resultCardConfirmIcon,
-  AlignmentGeometry resultCardAlignment,
-  EdgeInsetsGeometry resultCardPadding,
-  Decoration resultCardDecoration,
-  String language = 'en',
-  LocationAccuracy desiredAccuracy = LocationAccuracy.best,
-}) async {
+    BuildContext context,
+    String apiKey, {
+      LatLng initialCenter = const LatLng(25.389312, 49.603504),
+      double initialZoom = 16,
+      bool requiredGPS = false,
+      List<String> countries,
+      bool myLocationButtonEnabled = false,
+      bool layersButtonEnabled = false,
+      bool automaticallyAnimateToCurrentLocation = true,
+      String mapStylePath,
+      Color appBarColor = Colors.transparent,
+      BoxDecoration searchBarBoxDecoration,
+      String hintText,
+      Widget resultCardConfirmIcon,
+      AlignmentGeometry resultCardAlignment,
+      EdgeInsetsGeometry resultCardPadding,
+      Decoration resultCardDecoration,
+      String language = 'en',
+      LocationAccuracy desiredAccuracy = LocationAccuracy.best,
+    }) async {
   final results = await Navigator.of(context).push(
     MaterialPageRoute<dynamic>(
       builder: (BuildContext context) {
@@ -475,7 +475,7 @@ Future<LocationResult> showLocationPicker(
           myLocationButtonEnabled: myLocationButtonEnabled,
           layersButtonEnabled: layersButtonEnabled,
           automaticallyAnimateToCurrentLocation:
-              automaticallyAnimateToCurrentLocation,
+          automaticallyAnimateToCurrentLocation,
           mapStylePath: mapStylePath,
           appBarColor: appBarColor,
           hintText: hintText,
