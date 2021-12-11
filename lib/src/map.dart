@@ -20,25 +20,25 @@ import 'utils/location_utils.dart';
 
 class MapPicker extends StatefulWidget {
   const MapPicker(
-    this.apiKey, {
-    Key key,
-    this.initialCenter,
-    this.initialZoom,
-    this.requiredGPS,
-    this.myLocationButtonEnabled,
-    this.layersButtonEnabled,
-    this.automaticallyAnimateToCurrentLocation,
-    this.mapStylePath,
-    this.appBarColor,
-    this.searchBarBoxDecoration,
-    this.hintText,
-    this.resultCardConfirmIcon,
-    this.resultCardAlignment,
-    this.resultCardDecoration,
-    this.resultCardPadding,
-    this.language,
-    this.desiredAccuracy,
-  }) : super(key: key);
+      this.apiKey, {
+        Key key,
+        this.initialCenter,
+        this.initialZoom,
+        this.requiredGPS,
+        this.myLocationButtonEnabled,
+        this.layersButtonEnabled,
+        this.automaticallyAnimateToCurrentLocation,
+        this.mapStylePath,
+        this.appBarColor,
+        this.searchBarBoxDecoration,
+        this.hintText,
+        this.resultCardConfirmIcon,
+        this.resultCardAlignment,
+        this.resultCardDecoration,
+        this.resultCardPadding,
+        this.language,
+        this.desiredAccuracy,
+      }) : super(key: key);
 
   final String apiKey;
 
@@ -85,7 +85,7 @@ class MapPickerState extends State<MapPicker> {
 
   void _onToggleMapTypePressed() {
     final MapType nextType =
-        MapType.values[(_currentMapType.index + 1) % MapType.values.length];
+    MapType.values[(_currentMapType.index + 1) % MapType.values.length];
 
     setState(() => _currentMapType = nextType);
   }
@@ -95,7 +95,7 @@ class MapPickerState extends State<MapPicker> {
     Position currentPosition;
     try {
       currentPosition =
-          await getCurrentPosition(desiredAccuracy: widget.desiredAccuracy);
+      await getCurrentPosition(desiredAccuracy: widget.desiredAccuracy);
       d("position = $currentPosition");
 
       setState(() => _currentPosition = currentPosition);
@@ -204,7 +204,8 @@ class MapPickerState extends State<MapPicker> {
             onMyLocationPressed: _initCurrentLocation,
           ),
           pin(),
-          locationCard(),
+          _lastMapPosition != null ?
+          locationCard() : Container(),
         ],
       ),
     );
@@ -219,52 +220,52 @@ class MapPickerState extends State<MapPicker> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           child: Consumer<LocationProvider>(
               builder: (context, locationProvider, _) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(
-                    flex: 20,
-                    child: FutureLoadingBuilder<Map<String, String>>(
-                      future: getAddress(locationProvider.lastIdleLocation),
-                      mutable: true,
-                      loadingIndicator: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          CircularProgressIndicator(),
-                        ],
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Flexible(
+                        flex: 20,
+                        child: FutureLoadingBuilder<Map<String, String>>(
+                          future: getAddress(locationProvider.lastIdleLocation),
+                          mutable: true,
+                          loadingIndicator: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              CircularProgressIndicator(),
+                            ],
+                          ),
+                          builder: (context, data) {
+                            _address = data["address"];
+                            _placeId = data["placeId"];
+                            return Text(
+                              _address ??
+                                  S.of(context)?.unnamedPlace ??
+                                  'اختر هذا الموقع',
+                              style: TextStyle(fontSize: 18),
+                            );
+                          },
+                        ),
                       ),
-                      builder: (context, data) {
-                        _address = data["address"];
-                        _placeId = data["placeId"];
-                        return Text(
-                          _address ??
-                              S.of(context)?.unnamedPlace ??
-                              'اختر هذا الموقع',
-                          style: TextStyle(fontSize: 18),
-                        );
-                      },
-                    ),
+                      Spacer(),
+                      FloatingActionButton(
+                        onPressed: () {
+                          Navigator.of(context).pop({
+                            'location': LocationResult(
+                              latLng: locationProvider.lastIdleLocation,
+                              address: _address,
+                              placeId: _placeId,
+                            )
+                          });
+                        },
+                        child: widget.resultCardConfirmIcon ??
+                            Icon(Icons.arrow_forward),
+                      ),
+                    ],
                   ),
-                  Spacer(),
-                  FloatingActionButton(
-                    onPressed: () {
-                      Navigator.of(context).pop({
-                        'location': LocationResult(
-                          latLng: locationProvider.lastIdleLocation,
-                          address: _address,
-                          placeId: _placeId,
-                        )
-                      });
-                    },
-                    child: widget.resultCardConfirmIcon ??
-                        Icon(Icons.arrow_forward),
-                  ),
-                ],
-              ),
-            );
-          }),
+                );
+              }),
         ),
       ),
     );
@@ -277,7 +278,7 @@ class MapPickerState extends State<MapPicker> {
           '&key=${widget.apiKey}&language=${widget.language}';
 
       final response = jsonDecode((await http.get(Uri.parse(endpoint),
-              headers: await LocationUtils.getAppHeaders()))
+          headers: await LocationUtils.getAppHeaders()))
           .body);
 
       return {
@@ -391,8 +392,8 @@ class MapPickerState extends State<MapPicker> {
             title: Text(S.of(context)?.access_to_location_permanently_denied ??
                 'Access to location permanently denied'),
             content: Text(S
-                    .of(context)
-                    ?.allow_access_to_the_location_services_from_settings ??
+                .of(context)
+                ?.allow_access_to_the_location_services_from_settings ??
                 'Allow access to the location services for this App using the device settings.'),
             actions: <Widget>[
               FlatButton(
@@ -410,7 +411,7 @@ class MapPickerState extends State<MapPicker> {
     );
   }
 
-  // TODO: 9/12/2020 this is no longer needed, remove in the next release
+// TODO: 9/12/2020 this is no longer needed, remove in the next release
 
 }
 
